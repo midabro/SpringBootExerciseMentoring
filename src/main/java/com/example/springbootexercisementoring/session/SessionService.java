@@ -12,9 +12,13 @@ public class SessionService {
 
   private final long sessionTimeoutMinutes = 5;
   private final Map<String, Session> sessionMap = new ConcurrentHashMap<>();
+  private final Object sessionLock = new Object();
 
   public void createSession(User user, Session session) {
-    sessionMap.put(user.getId(), session);
+
+    synchronized (sessionLock) {
+      sessionMap.put(user.getId(), session);
+    }
   }
 
   public Session getSession(String userId) {
@@ -22,11 +26,13 @@ public class SessionService {
   }
 
   public void removeSession(String token) {
-    for (Map.Entry<String, Session> entry : sessionMap.entrySet()) {
-      if (entry.getValue().getToken().equals(token)) {
-       String userId = entry.getKey();
-        sessionMap.remove(userId);
-        break; 
+    synchronized (sessionLock) {
+      for (Map.Entry<String, Session> entry : sessionMap.entrySet()) {
+        if (entry.getValue().getToken().equals(token)) {
+         String userId = entry.getKey();
+          sessionMap.remove(userId);
+          break;
+        }
       }
     }
   }
@@ -57,12 +63,14 @@ public class SessionService {
 
   @Scheduled(fixedRate = 30000)
   public void removeExpiredSessions() {
-    LocalDateTime now = LocalDateTime.now();
+    synchronized (sessionLock) {
+      LocalDateTime now = LocalDateTime.now();
 
-    sessionMap.entrySet().removeIf(entry -> {
-      Session session = entry.getValue();
-      long elapsedTimeMinutes = java.time.Duration.between(session.getTimestamp(), now).toMinutes();
-      return elapsedTimeMinutes > sessionTimeoutMinutes;
-    });
+      sessionMap.entrySet().removeIf(entry -> {
+        Session session = entry.getValue();
+        long elapsedTimeMinutes = java.time.Duration.between(session.getTimestamp(), now).toMinutes();
+        return elapsedTimeMinutes > sessionTimeoutMinutes;
+      });
+    }
   }
 }
