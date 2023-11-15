@@ -4,6 +4,7 @@ import com.example.springbootexercisementoring.user.User;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -52,5 +53,16 @@ public class SessionService {
     long elapsedTimeMinutes = java.time.Duration.between(sessionTimestamp, now).toMinutes();
 
     return elapsedTimeMinutes <= sessionTimeoutMinutes;
+  }
+
+  @Scheduled(fixedRate = 30000)
+  public void removeExpiredSessions() {
+    LocalDateTime now = LocalDateTime.now();
+
+    sessionMap.entrySet().removeIf(entry -> {
+      Session session = entry.getValue();
+      long elapsedTimeMinutes = java.time.Duration.between(session.getTimestamp(), now).toMinutes();
+      return elapsedTimeMinutes > sessionTimeoutMinutes;
+    });
   }
 }
