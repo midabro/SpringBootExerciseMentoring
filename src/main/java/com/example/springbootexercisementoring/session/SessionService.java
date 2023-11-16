@@ -4,11 +4,14 @@ import com.example.springbootexercisementoring.user.User;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service
 public class SessionService {
+  private static final Logger logger = LoggerFactory.getLogger(SessionService.class);
 
   private final long sessionTimeoutMinutes = 5;
   private final Map<String, Session> sessionMap = new ConcurrentHashMap<>();
@@ -18,6 +21,7 @@ public class SessionService {
 
     synchronized (sessionLock) {
       sessionMap.put(user.getId(), session);
+      logger.info("Utworzono sesję dla użytkownika o ID: {}", user.getId());
     }
   }
 
@@ -31,12 +35,12 @@ public class SessionService {
         if (entry.getValue().getToken().equals(token)) {
          String userId = entry.getKey();
           sessionMap.remove(userId);
+          logger.info("Usunięto sesję dla użytkownika o ID: {}", userId);
           break;
         }
       }
     }
   }
-
 
   public boolean isSessionValid(String token) {
     for (Session sessionInfo : sessionMap.values()) {
@@ -69,8 +73,13 @@ public class SessionService {
       sessionMap.entrySet().removeIf(entry -> {
         Session session = entry.getValue();
         long elapsedTimeMinutes = java.time.Duration.between(session.getTimestamp(), now).toMinutes();
-        return elapsedTimeMinutes > sessionTimeoutMinutes;
+        boolean isExpired = elapsedTimeMinutes > sessionTimeoutMinutes;
+        if (isExpired) {
+          logger.info("Usunięto wygasłą sesję dla użytkownika o ID: {}", session.getUser().getId());
+        }
+        return isExpired;
       });
+      logger.info("Liczba usuniętych wygasłych sesji: {}", sessionMap.size());
     }
   }
 }
