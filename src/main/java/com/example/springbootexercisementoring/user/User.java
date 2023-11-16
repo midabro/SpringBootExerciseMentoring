@@ -2,8 +2,6 @@ package com.example.springbootexercisementoring.user;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
@@ -12,7 +10,7 @@ public class User {
     @Column
     private String id;
     @Column
-    private String name;
+    private String loginName;
 
     public String getId() {
         return id;
@@ -22,12 +20,12 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getLoginName() {
+        return loginName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setLoginName(String loginName) {
+        this.loginName = loginName;
     }
 
 
