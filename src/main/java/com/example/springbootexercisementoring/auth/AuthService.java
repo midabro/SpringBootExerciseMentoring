@@ -19,7 +19,7 @@ public class AuthService {
   private SessionService sessionService;
 
   public String login(String name) {
-    Optional<User> userOptional = userRepository.findByName(name);
+    Optional<User> userOptional = userRepository.findByLoginName(name);
     if (userOptional.isPresent()) {
       String token = generateRandomToken();
       Session session = new Session();

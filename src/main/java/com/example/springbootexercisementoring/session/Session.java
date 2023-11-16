@@ -2,21 +2,16 @@ package com.example.springbootexercisementoring.session;
 
 import com.example.springbootexercisementoring.user.User;
 import java.time.LocalDateTime;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 
-@Entity
+
 public class Session {
-  @Id
-  @Column
+
   private String id;
-  @Column
+
   private String token;
-  @Column
+
   private LocalDateTime timestamp;
-  @ManyToOne
+
   private User user;
 
   public String getId() {
