@@ -8,7 +8,7 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.springframework.scheduling.annotation.Scheduled;
 
-public class SessionServiceRWL {
+public class RWLSessionService implements SessionService {
   private final long sessionTimeoutMinutes = 5;
   private final Map<String, Session> sessionMap = new ConcurrentHashMap<>();
   private final ReadWriteLock sessionLock = new ReentrantReadWriteLock();

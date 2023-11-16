@@ -2,6 +2,7 @@ package com.example.springbootexercisementoring.auth;
 
 import com.example.springbootexercisementoring.exceptions.UnauthorizedException;
 import com.example.springbootexercisementoring.session.Session;
+import com.example.springbootexercisementoring.session.DefaultSessionService;
 import com.example.springbootexercisementoring.session.SessionService;
 import com.example.springbootexercisementoring.user.User;
 import com.example.springbootexercisementoring.user.UserRepository;
