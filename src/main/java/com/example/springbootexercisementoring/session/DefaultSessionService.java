@@ -10,7 +10,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service
-public class DefaultSessionService implements SessionService{
+public class DefaultSessionService implements SessionService {
+
   private static final Logger logger = LoggerFactory.getLogger(DefaultSessionService.class);
 
   private final long sessionTimeoutMinutes = 5;
@@ -33,7 +34,7 @@ public class DefaultSessionService implements SessionService{
     synchronized (sessionLock) {
       for (Map.Entry<String, Session> entry : sessionMap.entrySet()) {
         if (entry.getValue().getToken().equals(token)) {
-         String userId = entry.getKey();
+          String userId = entry.getKey();
           sessionMap.remove(userId);
           logger.info("Usunięto sesję dla użytkownika o ID: {}", userId);
           break;
@@ -72,7 +73,8 @@ public class DefaultSessionService implements SessionService{
 
       sessionMap.entrySet().removeIf(entry -> {
         Session session = entry.getValue();
-        long elapsedTimeMinutes = java.time.Duration.between(session.getTimestamp(), now).toMinutes();
+        long elapsedTimeMinutes = java.time.Duration.between(session.getTimestamp(), now)
+            .toMinutes();
         boolean isExpired = elapsedTimeMinutes > sessionTimeoutMinutes;
         if (isExpired) {
           logger.info("Usunięto wygasłą sesję dla użytkownika o ID: {}", session.getUser().getId());

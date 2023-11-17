@@ -2,7 +2,6 @@ package com.example.springbootexercisementoring.auth;
 
 import com.example.springbootexercisementoring.exceptions.UnauthorizedException;
 import com.example.springbootexercisementoring.session.Session;
-import com.example.springbootexercisementoring.session.DefaultSessionService;
 import com.example.springbootexercisementoring.session.SessionService;
 import com.example.springbootexercisementoring.user.User;
 import com.example.springbootexercisementoring.user.UserRepository;
@@ -16,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AuthService {
+
   private static final Logger logger = LoggerFactory.getLogger(AuthService.class);
 
   @Autowired
@@ -31,7 +31,7 @@ public class AuthService {
       session.setToken(token);
       session.setTimestamp(LocalDateTime.now());
       session.setUser(userOptional.get());
-      sessionService.createSession(userOptional.get(),session);
+      sessionService.createSession(userOptional.get(), session);
       logger.info("Użytkownik o loginie '{}' zalogowany. Token: {}", name, token);
       return token;
     } else {
