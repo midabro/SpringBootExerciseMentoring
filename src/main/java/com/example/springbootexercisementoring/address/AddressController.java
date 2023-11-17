@@ -32,7 +32,7 @@ public class AddressController {
     address.setId(addressDTO.getId());
     address.setCity(addressDTO.getCity());
     address.setStreet(addressDTO.getStreet());
-    address.setPostalCode(address.getPostalCode());
+    address.setPostalCode(addressDTO.getPostalCode());
     return addressRepository.save(address);
   }
 

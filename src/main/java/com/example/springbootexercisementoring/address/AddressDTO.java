@@ -1,6 +1,5 @@
 package com.example.springbootexercisementoring.address;
 
-import javax.persistence.Column;
 
 public class AddressDTO {
   private String id;

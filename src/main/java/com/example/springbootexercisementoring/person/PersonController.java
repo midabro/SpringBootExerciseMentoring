@@ -25,7 +25,14 @@ public class PersonController {
 
 
   @PostMapping("/create")
-  public Person createPerson(@RequestBody Person person) {
+  public Person createPerson(@RequestBody PersonDTO personDTO) {
+    Person person=new Person();
+    person.setId(personDTO.getId());
+    person.setFirstName(personDTO.getFirstName());
+    person.setLastName(personDTO.getLastName());
+    person.setAddress(personDTO.getAddress());
+    person.setPhoneNumber(personDTO.getPhoneNumber());
+    person.setUser(personDTO.getUser());
     return personRepository.save(person);
   }
 
