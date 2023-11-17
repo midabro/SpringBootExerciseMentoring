@@ -42,3 +42,18 @@ VALUES ('1004', 'Piotr', 'Zawadzki', '4', '104');
 
 INSERT INTO person (id, first_name, last_name, address_id, phone_number_id)
 VALUES ('1005', 'Agnieszka', 'Szymanska', '5', '105');
+
+INSERT INTO user (id, login_name)
+VALUES ('1001', 'jan.kowalski');
+
+INSERT INTO user (id, login_name)
+VALUES ('1002', 'anna.nowak');
+
+INSERT INTO user (id, login_name)
+VALUES ('1003', 'marta.wisniewska');
+
+INSERT INTO user (id, login_name)
+VALUES ('1004', 'piotr.zawadzki');
+
+INSERT INTO user (id, login_name)
+VALUES ('1005', 'agnieszka.szymanska');

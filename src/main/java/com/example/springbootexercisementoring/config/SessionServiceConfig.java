@@ -6,10 +6,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class AppConfig {
+public class SessionServiceConfig {
   @Bean
   public SessionService sessionService() {
     return new DefaultSessionService();
-//    return new RWLSessionService();
   }
 }

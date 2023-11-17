@@ -41,8 +41,13 @@ public class AuthService {
   }
 
   public void logout(String token) {
-    sessionService.removeSession(token);
-    logger.info("Wylogowano użytkownika o tokenie '{}'", token);
+    if (sessionService.isSessionValid(token)) {
+      sessionService.removeSession(token);
+      logger.info("Wylogowano użytkownika o tokenie '{}'", token);
+    } else {
+      logger.info("Sesja o tokenie '{}' nie istnieje", token);
+    }
+
   }
 
   private String generateRandomToken() {

@@ -7,9 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
 
-@Service
 public class DefaultSessionService implements SessionService {
 
   private static final Logger logger = LoggerFactory.getLogger(DefaultSessionService.class);
@@ -45,7 +43,7 @@ public class DefaultSessionService implements SessionService {
 
   public boolean isSessionValid(String token) {
     for (Session sessionInfo : sessionMap.values()) {
-      if (sessionInfo.getToken().equals(token) && isSessionExpired(sessionInfo.getToken())) {
+      if (sessionInfo.getToken().equals(token)) {
         return true;
       }
     }
@@ -55,15 +53,15 @@ public class DefaultSessionService implements SessionService {
   public boolean isSessionExpired(String token) {
     Session sessionInfo = sessionMap.get(token);
 
-    if (sessionInfo == null) {
+    if (sessionInfo != null) {
+      LocalDateTime now = LocalDateTime.now();
+      LocalDateTime sessionTimestamp = sessionInfo.getTimestamp();
+      long elapsedTimeMinutes = java.time.Duration.between(sessionTimestamp, now).toMinutes();
+
+      return elapsedTimeMinutes <= sessionTimeoutMinutes;
+    } else {
       return false;
     }
-
-    LocalDateTime now = LocalDateTime.now();
-    LocalDateTime sessionTimestamp = sessionInfo.getTimestamp();
-    long elapsedTimeMinutes = java.time.Duration.between(sessionTimestamp, now).toMinutes();
-
-    return elapsedTimeMinutes <= sessionTimeoutMinutes;
   }
 
   @Scheduled(fixedRate = 30000)
@@ -81,7 +79,7 @@ public class DefaultSessionService implements SessionService {
         }
         return isExpired;
       });
-      logger.info("Liczba usuniętych wygasłych sesji: {}", sessionMap.size());
+      logger.info("Liczba pozostających sesji: {}", sessionMap.size());
     }
   }
 }

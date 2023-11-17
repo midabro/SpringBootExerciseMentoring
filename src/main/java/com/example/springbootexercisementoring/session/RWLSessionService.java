@@ -6,10 +6,13 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 
 public class RWLSessionService implements SessionService {
 
+  private static final Logger logger = LoggerFactory.getLogger(RWLSessionService.class);
   private final long sessionTimeoutMinutes = 5;
   private final Map<String, Session> sessionMap = new ConcurrentHashMap<>();
   private final ReadWriteLock sessionLock = new ReentrantReadWriteLock();
@@ -18,6 +21,7 @@ public class RWLSessionService implements SessionService {
     sessionLock.writeLock().lock();
     try {
       sessionMap.put(user.getId(), session);
+      logger.info("Utworzono sesję dla użytkownika o ID: {}", user.getId());
     } finally {
       sessionLock.writeLock().unlock();
     }
@@ -39,6 +43,7 @@ public class RWLSessionService implements SessionService {
         if (entry.getValue().getToken().equals(token)) {
           String userId = entry.getKey();
           sessionMap.remove(userId);
+          logger.info("Usunięto sesję dla użytkownika o ID: {}", userId);
           break;
         }
       }
@@ -51,7 +56,7 @@ public class RWLSessionService implements SessionService {
     sessionLock.readLock().lock();
     try {
       for (Session sessionInfo : sessionMap.values()) {
-        if (sessionInfo.getToken().equals(token) && isSessionExpired(sessionInfo.getToken())) {
+        if (sessionInfo.getToken().equals(token)) {
           return true;
         }
       }
@@ -90,8 +95,13 @@ public class RWLSessionService implements SessionService {
         Session session = entry.getValue();
         long elapsedTimeMinutes = java.time.Duration.between(session.getTimestamp(), now)
             .toMinutes();
-        return elapsedTimeMinutes > sessionTimeoutMinutes;
+        boolean isExpired = elapsedTimeMinutes > sessionTimeoutMinutes;
+        if (isExpired) {
+          logger.info("Usunięto wygasłą sesję dla użytkownika o ID: {}", session.getUser().getId());
+        }
+        return isExpired;
       });
+      logger.info("Liczba pozostających sesji: {}", sessionMap.size());
     } finally {
       sessionLock.writeLock().unlock();
     }

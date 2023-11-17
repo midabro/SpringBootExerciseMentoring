@@ -11,7 +11,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 public class SessionInterceptor implements HandlerInterceptor {
 
   @Autowired
-  private DefaultSessionService sessionService;
+  private SessionService sessionService;
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)

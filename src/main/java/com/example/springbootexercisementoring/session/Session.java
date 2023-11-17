@@ -6,21 +6,12 @@ import java.time.LocalDateTime;
 
 public class Session {
 
-  private String id;
 
   private String token;
 
   private LocalDateTime timestamp;
 
   private User user;
-
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
 
   public String getToken() {
     return token;
