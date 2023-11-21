@@ -27,27 +27,26 @@ public class DefaultSessionService implements SessionService {
   public void createSession(User user) {
     Session session = new Session(user.getId());
     synchronized (sessionLock) {
-      sessionMap.put(user.getId(), session);
+      sessionMap.put(session.getToken(), session);
       logger.info("A session has been created for a user with ID: {}", user.getId());
     }
   }
 
-  public Session getSession(String userId) {
-    return sessionMap.get(userId);
+  public Session getSession(String token) {
+    return sessionMap.get(token);
   }
 
   public void removeSession(Session session) {
     synchronized (sessionLock) {
-          sessionMap.remove(session.getUserId());
-          logger.info("A session for a user with ID has been deleted: {}", session.getUserId());
-        }
-      }
+      sessionMap.remove(session.getToken());
+      logger.info("A session for a user with ID has been deleted: {}", session.getUserId());
+    }
+  }
 
   public Optional<Session> isSessionValid(String token) {
-    for (Session sessionInfo : sessionMap.values()) {
-      if (sessionInfo.getToken().equals(token)) {
-        return Optional.of(sessionInfo);
-      }
+    if (sessionMap.containsKey(token)) {
+      Session session = sessionMap.get(token);
+      return Optional.of(session);
     }
     return Optional.empty();
   }
@@ -88,7 +87,7 @@ public class DefaultSessionService implements SessionService {
     Optional<Session> sessionOptional = isSessionValid(token);
     if (sessionOptional.isPresent()) {
       removeSession(sessionOptional.get());
-      logger.info("Logged out user with userId '{}'",sessionOptional.get().getUserId());
+      logger.info("Logged out user with userId '{}'", sessionOptional.get().getUserId());
     } else {
       logger.info("Session with token '{}' does not exist", token);
     }

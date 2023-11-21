@@ -9,7 +9,7 @@ public interface SessionService {
 
   void createSession(User user);
 
-  Session getSession(String userId);
+  Session getSession(String token);
 
   void removeSession(Session session);
 

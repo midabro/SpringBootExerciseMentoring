@@ -13,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
 
 
 public class RWLSessionService implements SessionService {
@@ -36,10 +35,10 @@ public class RWLSessionService implements SessionService {
     }
   }
 
-  public Session getSession(String userId) {
+  public Session getSession(String token) {
     sessionLock.readLock().lock();
     try {
-      return sessionMap.get(userId);
+      return sessionMap.get(token);
     } finally {
       sessionLock.readLock().unlock();
     }
