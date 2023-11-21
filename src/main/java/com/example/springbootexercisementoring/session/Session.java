@@ -1,17 +1,22 @@
 package com.example.springbootexercisementoring.session;
 
-import com.example.springbootexercisementoring.user.User;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 
 public class Session {
-
 
   private String token;
 
   private LocalDateTime timestamp;
 
-  private User user;
+  private String userId;
+  private static final long sessionTimeoutMinutes = 5;
+  public Session(String userId) {
+    this.userId = userId;
+    this.timestamp=LocalDateTime.now();
+    this.token=generateRandomToken();
+  }
 
   public String getToken() {
     return token;
@@ -29,11 +34,20 @@ public class Session {
     this.timestamp = timestamp;
   }
 
-  public User getUser() {
-    return user;
+  public String getUserId() {
+    return userId;
   }
 
-  public void setUser(User user) {
-    this.user = user;
+  public void setUserId(String userId) {
+    this.userId = userId;
   }
+
+  private String generateRandomToken() {
+    return UUID.randomUUID().toString();
+  }
+
+  public boolean isSessionExpired() {
+      return timestamp.plusMinutes(sessionTimeoutMinutes).isBefore(LocalDateTime.now());
+  }
+
 }

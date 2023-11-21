@@ -1,26 +1,34 @@
 package com.example.springbootexercisementoring.session;
 
+import com.example.springbootexercisementoring.exceptions.UnauthorizedException;
 import com.example.springbootexercisementoring.user.User;
+import com.example.springbootexercisementoring.user.UserRepository;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
 
+@Service
 public class DefaultSessionService implements SessionService {
 
+  @Autowired
+  private UserRepository userRepository;
   private static final Logger logger = LoggerFactory.getLogger(DefaultSessionService.class);
 
   private final long sessionTimeoutMinutes = 5;
-  private final Map<String, Session> sessionMap = new ConcurrentHashMap<>();
+  private final Map<String, Session> sessionMap = new HashMap<>();
   private final Object sessionLock = new Object();
 
-  public void createSession(User user, Session session) {
-
+  public void createSession(User user) {
+    Session session = new Session(user.getId());
     synchronized (sessionLock) {
       sessionMap.put(user.getId(), session);
-      logger.info("Utworzono sesję dla użytkownika o ID: {}", user.getId());
+      logger.info("A session has been created for a user with ID: {}", user.getId());
     }
   }
 
@@ -28,40 +36,20 @@ public class DefaultSessionService implements SessionService {
     return sessionMap.get(userId);
   }
 
-  public void removeSession(String token) {
+  public void removeSession(Session session) {
     synchronized (sessionLock) {
-      for (Map.Entry<String, Session> entry : sessionMap.entrySet()) {
-        if (entry.getValue().getToken().equals(token)) {
-          String userId = entry.getKey();
-          sessionMap.remove(userId);
-          logger.info("Usunięto sesję dla użytkownika o ID: {}", userId);
-          break;
+          sessionMap.remove(session.getUserId());
+          logger.info("A session for a user with ID has been deleted: {}", session.getUserId());
         }
       }
-    }
-  }
 
-  public boolean isSessionValid(String token) {
+  public Optional<Session> isSessionValid(String token) {
     for (Session sessionInfo : sessionMap.values()) {
       if (sessionInfo.getToken().equals(token)) {
-        return true;
+        return Optional.of(sessionInfo);
       }
     }
-    return false;
-  }
-
-  public boolean isSessionExpired(String token) {
-    Session sessionInfo = sessionMap.get(token);
-
-    if (sessionInfo != null) {
-      LocalDateTime now = LocalDateTime.now();
-      LocalDateTime sessionTimestamp = sessionInfo.getTimestamp();
-      long elapsedTimeMinutes = java.time.Duration.between(sessionTimestamp, now).toMinutes();
-
-      return elapsedTimeMinutes <= sessionTimeoutMinutes;
-    } else {
-      return false;
-    }
+    return Optional.empty();
   }
 
   @Scheduled(fixedRate = 30000)
@@ -75,11 +63,35 @@ public class DefaultSessionService implements SessionService {
             .toMinutes();
         boolean isExpired = elapsedTimeMinutes > sessionTimeoutMinutes;
         if (isExpired) {
-          logger.info("Usunięto wygasłą sesję dla użytkownika o ID: {}", session.getUser().getId());
+          logger.info("Deleted an expired session for a user with ID: {}", session.getUserId());
         }
         return isExpired;
       });
-      logger.info("Liczba pozostających sesji: {}", sessionMap.size());
+      logger.info("Number of remaining sessions: {}", sessionMap.size());
     }
+  }
+
+  @Override
+  public void login(String name) {
+    Optional<User> userOptional = userRepository.findByLoginName(name);
+    if (userOptional.isPresent()) {
+      createSession(userOptional.get());
+      logger.info("User with login '{}' logged in", name);
+    } else {
+      logger.warn("Attempting to log in a non-existent user with login '{}'", name);
+      throw new UnauthorizedException("The user does not exist.");
+    }
+  }
+
+  @Override
+  public void logout(String token) {
+    Optional<Session> sessionOptional = isSessionValid(token);
+    if (sessionOptional.isPresent()) {
+      removeSession(sessionOptional.get());
+      logger.info("Logged out user with userId '{}'",sessionOptional.get().getUserId());
+    } else {
+      logger.info("Session with token '{}' does not exist", token);
+    }
+
   }
 }

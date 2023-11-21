@@ -1,9 +1,8 @@
 HELP.md
-target/
 !.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
-logs/
+**/target
+# Log files
+*.log
 
 ### STS ###
 .apt_generated
