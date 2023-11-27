@@ -28,41 +28,33 @@ public class RWLSessionService implements SessionService {
     sessionLock.writeLock().lock();
     try {
       Session session = new Session(user.getId());
-      sessionMap.put(user.getId(),session);
+      sessionMap.put(user.getId(), session);
       logger.info("A session has been created for a user with ID: {}", user.getId());
     } finally {
       sessionLock.writeLock().unlock();
     }
   }
 
-  public Session getSession(String token) {
-    sessionLock.readLock().lock();
-    try {
-      return sessionMap.get(token);
-    } finally {
-      sessionLock.readLock().unlock();
-    }
-  }
-
   public void removeSession(Session session) {
     sessionLock.writeLock().lock();
     try {
-          sessionMap.remove(session.getUserId());
-          logger.info("A session for a user with ID has been deleted: {}", session.getUserId());
+      sessionMap.remove(session.getUserId());
+      logger.info("A session for a user with ID has been deleted: {}", session.getUserId());
     } finally {
       sessionLock.writeLock().unlock();
     }
   }
 
-  public Optional<Session> isSessionValid(String token) {
+  public Optional<Session> getSession(String token) {
+    if (token == null) {
+      return Optional.empty();
+    }
     sessionLock.readLock().lock();
     try {
-      for (Session sessionInfo : sessionMap.values()) {
-        if (sessionInfo.getToken().equals(token)) {
-          return Optional.of(sessionInfo);
-        }
-      }
-      return Optional.empty();
+      return sessionMap.values()
+          .stream()
+          .filter(sessionInfo -> token.equals(sessionInfo.getToken()))
+          .findFirst();
     } finally {
       sessionLock.readLock().unlock();
     }

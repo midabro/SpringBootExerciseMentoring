@@ -19,15 +19,15 @@ public class SessionInterceptor implements HandlerInterceptor {
       throws Exception {
 
     String requestURI = request.getRequestURI();
-    // Sprawdź, czy to endpoint /login lub /logout
+    // Check if it is endpoint /login or /logout
     if (isLoginOrLogoutEndpoint(requestURI)) {
       return true;
     }
 
     String sessionToken = request.getHeader("Authorization");
-    Optional<Session> sessionOptional=sessionService.isSessionValid(sessionToken);
-    // Sprawdź, czy sesja istnieje
-    if (sessionToken != null && sessionOptional.isPresent()) {
+    Optional<Session> sessionOptional = sessionService.getSession(sessionToken);
+    // Check whether a session exists
+    if (sessionOptional.isPresent()) {
       if (sessionOptional.get().isSessionExpired()) {
         return true;
       } else {

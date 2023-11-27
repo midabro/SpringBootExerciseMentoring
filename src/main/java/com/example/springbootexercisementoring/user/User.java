@@ -6,27 +6,26 @@ import javax.persistence.Id;
 
 @Entity
 public class User {
-    @Id
-    @Column
-    private String id;
-    @Column(name = "")
-    private String loginName;
 
-    public String getId() {
-        return id;
-    }
+  @Id
+  @Column
+  private String id;
+  @Column
+  private String loginName;
 
-    public void setId(String id) {
-        this.id = id;
-    }
+  public String getId() {
+    return id;
+  }
 
-    public String getLoginName() {
-        return loginName;
-    }
+  public void setId(String id) {
+    this.id = id;
+  }
 
-    public void setLoginName(String loginName) {
-        this.loginName = loginName;
-    }
+  public String getLoginName() {
+    return loginName;
+  }
 
-
+  public void setLoginName(String loginName) {
+    this.loginName = loginName;
+  }
 }

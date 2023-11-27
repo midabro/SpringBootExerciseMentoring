@@ -9,11 +9,9 @@ public interface SessionService {
 
   void createSession(User user);
 
-  Session getSession(String token);
-
   void removeSession(Session session);
 
-  Optional<Session> isSessionValid(String token);
+  Optional<Session> getSession(String token);
 
   void removeExpiredSessions();
 

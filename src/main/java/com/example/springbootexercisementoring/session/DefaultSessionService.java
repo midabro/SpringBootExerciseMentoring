@@ -20,47 +20,38 @@ public class DefaultSessionService implements SessionService {
   private UserRepository userRepository;
   private static final Logger logger = LoggerFactory.getLogger(DefaultSessionService.class);
 
-  private final long sessionTimeoutMinutes = 5;
+  private static final long SESSION_TIMEOUT_MINUTES = 5;
   private final Map<String, Session> sessionMap = new HashMap<>();
-  private final Object sessionLock = new Object();
 
   public void createSession(User user) {
     Session session = new Session(user.getId());
-    synchronized (sessionLock) {
+    synchronized (sessionMap) {
       sessionMap.put(session.getToken(), session);
       logger.info("A session has been created for a user with ID: {}", user.getId());
     }
   }
 
-  public Session getSession(String token) {
-    return sessionMap.get(token);
-  }
-
   public void removeSession(Session session) {
-    synchronized (sessionLock) {
+    synchronized (sessionMap) {
       sessionMap.remove(session.getToken());
       logger.info("A session for a user with ID has been deleted: {}", session.getUserId());
     }
   }
 
-  public Optional<Session> isSessionValid(String token) {
-    if (sessionMap.containsKey(token)) {
-      Session session = sessionMap.get(token);
-      return Optional.of(session);
-    }
-    return Optional.empty();
+  public Optional<Session> getSession(String token) {
+    return Optional.ofNullable(token).map(sessionMap::get);
   }
 
   @Scheduled(fixedRate = 30000)
   public void removeExpiredSessions() {
-    synchronized (sessionLock) {
+    synchronized (sessionMap) {
       LocalDateTime now = LocalDateTime.now();
 
       sessionMap.entrySet().removeIf(entry -> {
         Session session = entry.getValue();
         long elapsedTimeMinutes = java.time.Duration.between(session.getTimestamp(), now)
             .toMinutes();
-        boolean isExpired = elapsedTimeMinutes > sessionTimeoutMinutes;
+        boolean isExpired = elapsedTimeMinutes > SESSION_TIMEOUT_MINUTES;
         if (isExpired) {
           logger.info("Deleted an expired session for a user with ID: {}", session.getUserId());
         }
@@ -84,7 +75,7 @@ public class DefaultSessionService implements SessionService {
 
   @Override
   public void logout(String token) {
-    Optional<Session> sessionOptional = isSessionValid(token);
+    Optional<Session> sessionOptional = getSession(token);
     if (sessionOptional.isPresent()) {
       removeSession(sessionOptional.get());
       logger.info("Logged out user with userId '{}'", sessionOptional.get().getUserId());

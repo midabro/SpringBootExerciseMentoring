@@ -6,16 +6,18 @@ import java.util.UUID;
 
 public class Session {
 
+  private static final long SESSION_TIMEOUT_MINUTES = 5;
+
   private String token;
 
-  private LocalDateTime timestamp;
+  private final LocalDateTime timestamp;
 
-  private String userId;
-  private static final long sessionTimeoutMinutes = 5;
+  private final String userId;
+
   public Session(String userId) {
     this.userId = userId;
-    this.timestamp=LocalDateTime.now();
-    this.token=generateRandomToken();
+    this.timestamp = LocalDateTime.now();
+    this.token = generateRandomToken();
   }
 
   public String getToken() {
@@ -30,16 +32,8 @@ public class Session {
     return timestamp;
   }
 
-  public void setTimestamp(LocalDateTime timestamp) {
-    this.timestamp = timestamp;
-  }
-
   public String getUserId() {
     return userId;
-  }
-
-  public void setUserId(String userId) {
-    this.userId = userId;
   }
 
   private String generateRandomToken() {
@@ -47,7 +41,7 @@ public class Session {
   }
 
   public boolean isSessionExpired() {
-      return timestamp.plusMinutes(sessionTimeoutMinutes).isBefore(LocalDateTime.now());
+    return timestamp.plusMinutes(SESSION_TIMEOUT_MINUTES).isBefore(LocalDateTime.now());
   }
 
 }
