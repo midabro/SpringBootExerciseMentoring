@@ -168,6 +168,10 @@
     <module>address</module>
     <module>auth</module>
     <module>exceptions</module>
+    <module>person</module>
+    <module>phonenumber</module>
+    <module>session</module>
+    <module>user</module>
   </modules>
 
 </project>

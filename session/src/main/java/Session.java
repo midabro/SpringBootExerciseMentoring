@@ -1,6 +1,3 @@
-package com.example.springbootexercisementoring.session;
-
-import com.example.springbootexercisementoring.user.User;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
