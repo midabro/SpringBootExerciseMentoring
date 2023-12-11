@@ -1,4 +1,4 @@
-package com.example.springbootexercisementoring.phonenumber;
+package main.java.com.example.springbootexercisementoring.phonenumber;
 
 import java.util.Optional;
 import javax.persistence.Persistence;
@@ -16,10 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/phonenumber")
 public class PhoneNumberController {
- private final PhoneNumberRepository phoneNumberRepository;
+ private final com.example.springbootexercisementoring.phonenumber.PhoneNumberRepository phoneNumberRepository;
 
  @Autowired
-  public PhoneNumberController(PhoneNumberRepository phoneNumberRepository) {
+  public PhoneNumberController(
+     com.example.springbootexercisementoring.phonenumber.PhoneNumberRepository phoneNumberRepository) {
     this.phoneNumberRepository = phoneNumberRepository;
   }
 

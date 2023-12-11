@@ -1,7 +1,3 @@
-package com.example.springbootexercisementoring.address;
-
-import com.example.springbootexercisementoring.person.Person;
-import com.example.springbootexercisementoring.person.PersonRepository;
 import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
