@@ -1,5 +1,3 @@
-package com.example.springbootexercisementoring.session;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 
