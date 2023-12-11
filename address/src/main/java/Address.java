@@ -1,5 +1,3 @@
-package com.example.springbootexercisementoring.address;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
