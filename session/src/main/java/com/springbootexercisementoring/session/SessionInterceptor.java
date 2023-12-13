@@ -1,12 +1,11 @@
-package com.example.springbootexercisementoring.session;
+package com.springbootexercisementoring.session;
 
-import java.util.Optional;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
-
 
 @Component
 public class SessionInterceptor implements HandlerInterceptor {
@@ -31,7 +30,7 @@ public class SessionInterceptor implements HandlerInterceptor {
       if (sessionOptional.get().isSessionExpired()) {
         return true;
       } else {
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Session has expired");
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "com.spr.session.Session has expired");
         return false;
       }
     } else {

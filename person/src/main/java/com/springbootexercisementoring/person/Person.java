@@ -1,3 +1,8 @@
+package com.springbootexercisementoring.person;
+
+import com.springbootexercisementoring.address.Address;
+import com.springbootexercisementoring.phonenumber.PhoneNumber;
+import com.springbootexercisementoring.user.User;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
