@@ -1,3 +1,6 @@
+package com.springbootexercisementoring.session;
+
+import com.springbootexercisementoring.user.User;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;

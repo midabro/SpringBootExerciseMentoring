@@ -1,3 +1,5 @@
+package com.springbootexercisementoring.person;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,9 +32,9 @@ public class PersonController {
     public ResponseEntity<String> deletePerson(@RequestParam String id){
         if (personRepository.existsById(id)) {
             personRepository.deleteById(id);
-            return new ResponseEntity<>("Person with id " + id + " has been deleted.", HttpStatus.OK);
+            return new ResponseEntity<>("com.spr.person.Person with id " + id + " has been deleted.", HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("Person with id " + id + " not found.", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("com.spr.person.Person with id " + id + " not found.", HttpStatus.NOT_FOUND);
         }
     }
 

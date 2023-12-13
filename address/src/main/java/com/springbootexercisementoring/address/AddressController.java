@@ -1,3 +1,5 @@
+package com.springbootexercisementoring.address;
+
 import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,9 +31,9 @@ public class AddressController {
   public ResponseEntity<String> deleteAddress(String addressId) {
     if (addressRepository.existsById(addressId)) {
       addressRepository.deleteById(addressId);
-      return new ResponseEntity<>("Address with id " + addressId + " has been deleted.", HttpStatus.OK);
+      return new ResponseEntity<>("com.springbootmentoring.address.Address with id " + addressId + " has been deleted.", HttpStatus.OK);
     } else {
-      return new ResponseEntity<>("Address with id " + addressId + " not found.", HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>("com.springbootmentoring.address.Address with id " + addressId + " not found.", HttpStatus.NOT_FOUND);
     }
   }
 }

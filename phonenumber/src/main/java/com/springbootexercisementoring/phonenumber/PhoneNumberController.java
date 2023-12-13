@@ -1,3 +1,5 @@
+package com.springbootexercisementoring.phonenumber;
+
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,11 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/phonenumber")
 public class PhoneNumberController {
- private final com.example.springbootexercisementoring.phonenumber.PhoneNumberRepository phoneNumberRepository;
+ private final PhoneNumberRepository phoneNumberRepository;
 
  @Autowired
-  public PhoneNumberController(
-     com.example.springbootexercisementoring.phonenumber.PhoneNumberRepository phoneNumberRepository) {
+  public PhoneNumberController(PhoneNumberRepository phoneNumberRepository) {
     this.phoneNumberRepository = phoneNumberRepository;
   }
 

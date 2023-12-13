@@ -1,8 +1,10 @@
-import com.example.springbootexercisementoring.exceptions.UnauthorizedException;
-import com.example.springbootexercisementoring.session.Session;
-import com.example.springbootexercisementoring.session.SessionService;
-import com.example.springbootexercisementoring.user.User;
-import com.example.springbootexercisementoring.user.UserRepository;
+package com.springbootexercisementoring.auth;
+
+import com.springbootexercisementoring.exceptions.UnauthorizedException;
+import com.springbootexercisementoring.session.Session;
+import com.springbootexercisementoring.session.SessionService;
+import com.springbootexercisementoring.user.User;
+import com.springbootexercisementoring.user.UserRepository;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
