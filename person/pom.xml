@@ -9,4 +9,24 @@
   </parent>
 
   <artifactId>person</artifactId>
+  <dependencies>
+    <dependency>
+      <groupId>com.example.springbootexercisementoring</groupId>
+      <artifactId>user</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.example.springbootexercisementoring</groupId>
+      <artifactId>address</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.example.springbootexercisementoring</groupId>
+      <artifactId>phonenumber</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
 </project>
