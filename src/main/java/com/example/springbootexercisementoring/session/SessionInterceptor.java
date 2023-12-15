@@ -1,6 +1,6 @@
 package com.example.springbootexercisementoring.session;
 
-import javax.persistence.Column;
+import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,16 +19,16 @@ public class SessionInterceptor implements HandlerInterceptor {
       throws Exception {
 
     String requestURI = request.getRequestURI();
-    // Sprawdź, czy to endpoint /login lub /logout
+    // Check if it is endpoint /login or /logout
     if (isLoginOrLogoutEndpoint(requestURI)) {
       return true;
     }
 
     String sessionToken = request.getHeader("Authorization");
-
-    // Sprawdź, czy sesja istnieje
-    if (sessionToken != null && sessionService.isSessionValid(sessionToken)) {
-      if (sessionService.isSessionExpired(sessionToken)) {
+    Optional<Session> sessionOptional = sessionService.getSession(sessionToken);
+    // Check whether a session exists
+    if (sessionOptional.isPresent()) {
+      if (sessionOptional.get().isSessionExpired()) {
         return true;
       } else {
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Session has expired");

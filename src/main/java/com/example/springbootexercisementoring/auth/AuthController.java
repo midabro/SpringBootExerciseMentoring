@@ -1,25 +1,30 @@
 package com.example.springbootexercisementoring.auth;
 
+import com.example.springbootexercisementoring.session.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 @RestController
 @RequestMapping("/api")
 public class AuthController {
 
-  @Autowired
-  private AuthService authService;
+  private final SessionService sessionService;
+
+  public AuthController(SessionService sessionService) {
+    this.sessionService = sessionService;
+  }
 
   @PostMapping("/login")
-  public String login(@RequestParam String name) {
-    return authService.login(name);
+  public void login(@RequestParam String name) {
+     sessionService.login(name);
   }
 
   @PostMapping("/logout")
   public void logout(@RequestHeader("Authorization") String token) {
-      authService.logout(token);
+    sessionService.logout(token);
   }
 }

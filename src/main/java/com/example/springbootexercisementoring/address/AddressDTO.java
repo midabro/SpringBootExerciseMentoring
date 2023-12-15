@@ -1,20 +1,10 @@
 package com.example.springbootexercisementoring.address;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
 
-@Entity
-public class Address {
-
-  @Id
-  @Column(name = "address_id")
+public class AddressDTO {
   private String id;
-  @Column
   private String street;
-  @Column
   private String city;
-  @Column
   private String postalCode;
 
   public String getId() {

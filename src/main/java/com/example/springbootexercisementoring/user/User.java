@@ -2,33 +2,30 @@ package com.example.springbootexercisementoring.user;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 public class User {
-    @Id
-    @Column
-    private String id;
-    @Column
-    private String name;
 
-    public String getId() {
-        return id;
-    }
+  @Id
+  @Column
+  private String id;
+  @Column
+  private String loginName;
 
-    public void setId(String id) {
-        this.id = id;
-    }
+  public String getId() {
+    return id;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public void setId(String id) {
+    this.id = id;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public String getLoginName() {
+    return loginName;
+  }
 
-
+  public void setLoginName(String loginName) {
+    this.loginName = loginName;
+  }
 }

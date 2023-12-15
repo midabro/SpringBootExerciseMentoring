@@ -1,37 +1,17 @@
 package com.example.springbootexercisementoring.person;
 
-
 import com.example.springbootexercisementoring.address.Address;
 import com.example.springbootexercisementoring.phonenumber.PhoneNumber;
 import com.example.springbootexercisementoring.user.User;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 
-@Entity
-public class Person {
 
-  @Id
-  @Column(name = "id")
+public class PersonDTO {
   private String id;
-  @Column(name = "firstName")
   private String firstName;
-  @Column(name = "lastName")
   private String lastName;
-
-  @OneToOne
-  @JoinColumn(name = "id")
   private User user;
-  @OneToOne
-  @JoinColumn(name = "address_id")
   private Address address;
-
-  @OneToOne
-  @JoinColumn(name = "phone_number_id")
   private PhoneNumber phoneNumber;
-
 
   public String getId() {
     return id;
@@ -57,6 +37,14 @@ public class Person {
     this.lastName = lastName;
   }
 
+  public User getUser() {
+    return user;
+  }
+
+  public void setUser(User user) {
+    this.user = user;
+  }
+
   public Address getAddress() {
     return address;
   }
@@ -71,13 +59,5 @@ public class Person {
 
   public void setPhoneNumber(PhoneNumber phoneNumber) {
     this.phoneNumber = phoneNumber;
-  }
-
-  public User getUser() {
-    return user;
-  }
-
-  public void setUser(User user) {
-    this.user = user;
   }
 }
