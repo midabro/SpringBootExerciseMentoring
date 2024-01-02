@@ -1,9 +1,7 @@
-package com.example.springbootexercisementoring.person;
+package com.springbootexercisementoring.person;
 
-import com.example.springbootexercisementoring.address.Address;
-import com.example.springbootexercisementoring.phonenumber.PhoneNumber;
-import com.example.springbootexercisementoring.user.User;
 
+import org.apache.tomcat.jni.Address;
 
 public class PersonDTO {
   private String id;

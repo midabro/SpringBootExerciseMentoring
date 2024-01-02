@@ -1,8 +1,7 @@
-package com.example.springbootexercisementoring.session;
+package com.springbootexercisementoring.session;
 
-import com.example.springbootexercisementoring.exceptions.UnauthorizedException;
-import com.example.springbootexercisementoring.user.User;
-import com.example.springbootexercisementoring.user.UserRepository;
+import com.springbootexercisementoring.user.User;
+import com.springbootexercisementoring.user.UserRepository;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
