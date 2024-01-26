@@ -1,5 +1,6 @@
 package com.springbootexercisementoring.session;
 
+import com.springbootexercisementoring.exceptions.UnauthorizedException;
 import com.springbootexercisementoring.user.User;
 import com.springbootexercisementoring.user.UserRepository;
 import java.time.LocalDateTime;

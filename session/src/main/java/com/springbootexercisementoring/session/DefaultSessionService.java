@@ -1,5 +1,6 @@
 package com.springbootexercisementoring.session;
 
+import com.springbootexercisementoring.exceptions.UnauthorizedException;
 import com.springbootexercisementoring.user.User;
 import com.springbootexercisementoring.user.UserRepository;
 import java.time.LocalDateTime;
@@ -62,7 +63,7 @@ public class DefaultSessionService implements SessionService {
 
   @Override
   public void login(String name) {
-    Optional<User> userOptional = userRepository.findByLoginName(name);
+    Optional<User> userOptional = userRepository.findByName(name);
     if (userOptional.isPresent()) {
       createSession(userOptional.get());
       logger.info("User with login '{}' logged in", name);
