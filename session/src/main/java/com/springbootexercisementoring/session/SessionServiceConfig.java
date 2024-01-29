@@ -1,7 +1,5 @@
-package com.example.springbootexercisementoring.config;
+package com.springbootexercisementoring.session;
 
-import com.example.springbootexercisementoring.session.DefaultSessionService;
-import com.example.springbootexercisementoring.session.SessionService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

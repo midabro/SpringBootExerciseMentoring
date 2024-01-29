@@ -16,7 +16,7 @@ public class Person {
     private String id;
     @Column(name = "firstName")
     private String firstName;
-    @Column(name="lastName")
+    @Column(name = "lastName")
     private String lastName;
 
     @OneToOne

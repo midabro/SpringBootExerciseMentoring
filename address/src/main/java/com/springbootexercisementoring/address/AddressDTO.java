@@ -1,4 +1,4 @@
-package com.example.springbootexercisementoring.address;
+package com.springbootexercisementoring.address;
 
 
 public class AddressDTO {

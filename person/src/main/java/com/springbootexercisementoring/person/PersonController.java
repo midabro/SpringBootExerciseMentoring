@@ -23,20 +23,27 @@ public class PersonController {
     }
 
 
-    @PostMapping("/create")
-    public Person createPerson(@RequestBody Person person) {
-        return personRepository.save(person);
-    }
+  @PostMapping("/create")
+  public Person createPerson(@RequestBody PersonDTO personDTO) {
+    Person person=new Person();
+    person.setId(personDTO.getId());
+    person.setFirstName(personDTO.getFirstName());
+    person.setLastName(personDTO.getLastName());
+    person.setAddress(personDTO.getAddress());
+    person.setPhoneNumber(personDTO.getPhoneNumber());
+    person.setUser(personDTO.getUser());
+    return personRepository.save(person);
+  }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<String> deletePerson(@RequestParam String id){
-        if (personRepository.existsById(id)) {
-            personRepository.deleteById(id);
-            return new ResponseEntity<>("com.spr.person.Person with id " + id + " has been deleted.", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("com.spr.person.Person with id " + id + " not found.", HttpStatus.NOT_FOUND);
-        }
+  @DeleteMapping("/delete")
+  public ResponseEntity<String> deletePerson(@RequestParam String id) {
+    if (personRepository.existsById(id)) {
+      personRepository.deleteById(id);
+      return new ResponseEntity<>("Person with id " + id + " has been deleted.", HttpStatus.OK);
+    } else {
+      return new ResponseEntity<>("Person with id " + id + " not found.", HttpStatus.NOT_FOUND);
     }
+  }
 
 
 }

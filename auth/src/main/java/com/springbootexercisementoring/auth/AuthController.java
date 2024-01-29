@@ -1,6 +1,6 @@
 package com.springbootexercisementoring.auth;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.springbootexercisementoring.session.SessionService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;

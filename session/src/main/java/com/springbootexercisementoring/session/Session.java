@@ -1,30 +1,23 @@
 package com.springbootexercisementoring.session;
 
-import com.springbootexercisementoring.user.User;
 import java.time.LocalDateTime;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import java.util.UUID;
 
-@Entity
+
 public class Session {
-  @Id
-  @Column
-  private String id;
-  @Column
+
+  private static final long SESSION_TIMEOUT_MINUTES = 5;
+
   private String token;
-  @Column
-  private LocalDateTime timestamp;
-  @ManyToOne
-  private User user;
 
-  public String getId() {
-    return id;
-  }
+  private final LocalDateTime timestamp;
 
-  public void setId(String id) {
-    this.id = id;
+  private final String userId;
+
+  public Session(String userId) {
+    this.userId = userId;
+    this.timestamp = LocalDateTime.now();
+    this.token = generateRandomToken();
   }
 
   public String getToken() {
@@ -39,15 +32,16 @@ public class Session {
     return timestamp;
   }
 
-  public void setTimestamp(LocalDateTime timestamp) {
-    this.timestamp = timestamp;
+  public String getUserId() {
+    return userId;
   }
 
-  public User getUser() {
-    return user;
+  private String generateRandomToken() {
+    return UUID.randomUUID().toString();
   }
 
-  public void setUser(User user) {
-    this.user = user;
+  public boolean isSessionExpired() {
+    return timestamp.plusMinutes(SESSION_TIMEOUT_MINUTES).isBefore(LocalDateTime.now());
   }
+
 }
