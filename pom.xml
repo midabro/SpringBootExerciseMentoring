@@ -185,13 +185,13 @@
   </profiles>
 
   <modules>
-    <module>address</module>
-    <module>auth</module>
-    <module>exceptions</module>
-    <module>person</module>
-    <module>phonenumber</module>
-    <module>session</module>
-    <module>user</module>
+    <module>src/main/java/address</module>
+    <module>src/main/java/auth</module>
+    <module>src/main/java/exceptions</module>
+    <module>src/main/java/person</module>
+    <module>src/main/java/phonenumber</module>
+    <module>src/main/java/session</module>
+    <module>src/main/java/user</module>
   </modules>
 
 </project>
