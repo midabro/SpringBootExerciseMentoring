@@ -130,6 +130,9 @@
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-maven-plugin</artifactId>
           <version>3.1.2</version>
+          <configuration>
+            <mainClass>com.springbootexercisementoring.main.SpringBootExerciseMentoringApplication</mainClass>
+          </configuration>
         </plugin>
         <!-- Add other common build plugins -->
       </plugins>
@@ -185,6 +188,7 @@
   </profiles>
 
   <modules>
+    <module>main</module>
     <module>address</module>
     <module>auth</module>
     <module>exceptions</module>

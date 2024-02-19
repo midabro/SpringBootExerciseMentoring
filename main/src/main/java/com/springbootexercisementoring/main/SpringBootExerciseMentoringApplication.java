@@ -1,4 +1,4 @@
-package com.example.springbootexercisementoring;
+package com.springbootexercisementoring.main;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
